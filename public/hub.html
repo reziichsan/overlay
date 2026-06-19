@@ -502,37 +502,41 @@
         }
 
         // --- CARD GENERATOR ---
-        function createCard(filename, type) {
-            const title = filename.replace('.html', '').replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
-            let buttons = '';
-            const currentOrigin = window.location.origin;
-            
-            if (type === 'control') {
-                buttons = `
-                    <button class="action-btn btn-primary open-btn" data-url="${currentOrigin}/${filename}">OPEN PANEL</button>
-                    <button class="action-btn copy-btn" data-url="${currentOrigin}/${filename}">COPY URL</button>
-                `;
-            } else {
-                buttons = `
-                    <button class="action-btn btn-primary copy-btn" data-url="${currentOrigin}/${filename}">COPY LINK</button>
-                    <button class="action-btn copy-btn" data-url="http://${serverIP}:${serverPort}/${filename}">NET IP (LAN)</button>
-                `;
-            }
+      function createCard(filename, type) {
+    const title = filename.replace('.html', '').replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+    let buttons = '';
+    const currentOrigin = window.location.origin;
+    
+    if (type === 'control') {
+        buttons = `
+            <button class="action-btn btn-primary open-btn" data-url="${currentOrigin}/${filename}">OPEN PANEL</button>
+            <button class="action-btn copy-btn" data-url="${currentOrigin}/${filename}">COPY URL</button>
+        `;
+    } else {
+        // Cek jika sedang di internet (Railway), buat tombol NET IP (LAN) ikut menggunakan domain Railway
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const netUrl = isLocal ? `http://${serverIP}:${serverPort}/${filename}` : `${currentOrigin}/${filename}`;
 
-            return `
-                <div class="tool-card">
-                    <div class="card-preview">
-                        <img src="Assets/screenshots/${filename}.png" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgZmlsbD0iIzIyMiI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIC8+PHRleHQgeD0iNTAiIHk9IjUwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzU1NSI+Tk8gUFJFVklFVzwvdGV4dD48L3N2Zz4='">
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title">${title}</h3>
-                        <div class="card-actions">
-                            ${buttons}
-                        </div>
-                    </div>
+        buttons = `
+            <button class="action-btn btn-primary copy-btn" data-url="${currentOrigin}/${filename}">COPY LINK</button>
+            <button class="action-btn copy-btn" data-url="${netUrl}">NET IP (LAN)</button>
+        `;
+    }
+
+    return `
+        <div class="tool-card">
+            <div class="card-preview">
+                <img src="Assets/screenshots/${filename}.png" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgZmlsbD0iIzIyMiI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIC8+PHRleHQgeD0iNTAiIHk9IjUwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzU1NSI+Tk8gUFJFVklFVzwvdGV4dD48L3N2Zz4='">
+            </div>
+            <div class="card-body">
+                <h3 class="card-title">${title}</h3>
+                <div class="card-actions">
+                    ${buttons}
                 </div>
-            `;
-        }
+            </div>
+        </div>
+    `;
+}
 
         // --- FUNGSI COPY YANG AMAN (HTTP & HTTPS) ---
         function copyTextToClipboard(text) {
