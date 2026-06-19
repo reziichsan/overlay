@@ -461,34 +461,36 @@
     </main>
 
 <script>
-        const serverPort = 3000;
-        let serverIP = 'localhost';
-
-        // --- DATA FILES ---
-        const controlFiles = ['control.html', 'controlban6.html', 'drawcontrol.html', 'notifcontrol.html', 'postgamecontrol.html', 'schedulecontrol.html', 'costumoverlaycontrol.html'];
-        const displayFiles = ['display.html', 'display2.html', 'displaycostum.html', 'displayban6.html', 'display2ban6.html', 'displaycostumban6.html', 'postdraft.html', 'postdraft2.html', 'postdraftcostum.html', 'scoreboard.html', 'scoreboardcostum.html','scoreboardocr.html','scoreboardcostumocr.html', 'previousdraft.html', 'notifdisplay.html', 'builds.html', 'globalban.html'];
-        const utilityFiles = ['postgame.html', 'mvpdisplay.html', 'scheduledisplay.html', 'drawdisplay.html', 'drawdisplay2.html', 'drawdisplay3.html', 'drawfinal.html'];
-
-        // --- IP INITIALIZATION ---
         async function initializeIP() {
-            const ipDisplay = document.getElementById('sidebarIpDisplay');
-            try {
-                const response = await fetch("/serverip.txt");
-                if (!response.ok) throw new Error("Net Err");
-                const ip = (await response.text()).trim();
-                if (ip) {
-                    serverIP = ip;
-                    ipDisplay.textContent = `${serverIP}:${serverPort}`;
-                    ipDisplay.style.color = 'var(--success)';
-                } else {
-                    throw new Error("Empty IP");
-                }
-            } catch (error) {
-                console.error("IP Fetch Error:", error);
-                ipDisplay.textContent = `Offline / Localhost`;
-                ipDisplay.style.color = '#ef4444';
-            }
+    const ipDisplay = document.getElementById('sidebarIpDisplay');
+    
+    // 1. Cek apakah aplikasi sedang dibuka lewat Railway (internet) atau Localhost
+    if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+        // Jika dibuka lewat Railway, gunakan nama domainnya langsung sebagai penanda status
+        serverIP = window.location.hostname;
+        ipDisplay.textContent = "Railway Online";
+        ipDisplay.style.color = 'var(--success)';
+        return; // Hentikan fungsi di sini karena sudah sukses online
+    }
+
+    // 2. Jika dibuka di komputer sendiri (Localhost), jalankan cara lama bawaan kamu (baca serverip.txt)
+    try {
+        const response = await fetch("/serverip.txt");
+        if (!response.ok) throw new Error("Net Err");
+        const ip = (await response.text()).trim();
+        if (ip) {
+            serverIP = ip;
+            ipDisplay.textContent = `${serverIP}:${serverPort}`;
+            ipDisplay.style.color = 'var(--success)';
+        } else {
+            throw new Error("Empty IP");
         }
+    } catch (error) {
+        console.error("IP Fetch Error:", error);
+        ipDisplay.textContent = `Offline / Localhost`;
+        ipDisplay.style.color = '#ef4444';
+    }
+}
 
         // --- CARD GENERATOR ---
         function createCard(filename, type) {
