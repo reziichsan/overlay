@@ -230,7 +230,6 @@
         /* ================== README STYLES ================== */
         .readme-wrapper { max-width: 1100px; margin: 0 auto; }
         
-        /* IP Info Box */
         .info-panel {
             background: rgba(0,0,0,0.25);
             border-left: 4px solid var(--accent-primary);
@@ -240,7 +239,6 @@
             line-height: 1.6;
         }
 
-        /* License Grid Split */
         .license-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -274,7 +272,6 @@
             color: var(--text-main);
         }
 
-        /* Buttons Grid */
         .support-grid, .social-grid {
             display: flex;
             flex-wrap: wrap;
@@ -299,7 +296,6 @@
         }
         .social-link:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.4); filter: brightness(1.1); }
 
-        /* Social Colors */
         .bg-saweria { background: linear-gradient(135deg, #ffc940, #ff9a00); color: #000; }
         .bg-paypal { background: #00457C; }
         .bg-sociabuzz { background: #01ce6f; }
@@ -374,7 +370,7 @@
         <div id="display" class="tab-pane">
             <div class="page-header">
                 <h1 class="page-title">Display Overlay</h1>
-                <div class="page-subtitle">Main broadcast screens. Use 'Copy Localhost' if on same PC.</div>
+                <div class="page-subtitle">Main broadcast screens. Click to open and transition pages.</div>
             </div>
             <div class="tools-grid" id="displayGrid"></div>
         </div>
@@ -399,12 +395,12 @@
                     <h3 style="margin-top:0; font-family: var(--font-display); letter-spacing:1px; color: var(--accent-primary);">NETWORK CONFIGURATION</h3>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
                         <div>
-                            <strong>When to use 'Copy by IP':</strong><br>
-                            If you run this Control Hub on one PC and your streaming software (OBS) is on an <em>entirely different</em> PC. This allows the streaming PC to access the overlay over the network.
+                            <strong>When to use 'OPEN OVERLAY':</strong><br>
+                            Click this button to directly open and interact with the display overlays inside your browser panel in the current window view.
                         </div>
                         <div>
-                            <strong>When to use 'Copy Localhost':</strong><br>
-                            If you run this Control Hub and OBS on the <strong>same</strong> PC. Localhost is faster and more stable for single-PC setups.
+                            <strong>When to use 'NET IP (LAN)':</strong><br>
+                            Copies local networking context. Useful only if testing backend triggers on local physical intranet arrays simultaneously.
                         </div>
                     </div>
                 </div>
@@ -430,7 +426,7 @@
                         <h3>2. Laporkan Pelanggaran</h3>
                         <p>Semangat dari proyek ini adalah untuk mendukung komunitas. Jika Anda menemukan seseorang atau pihak yang memperjualbelikan webapp ini, tolong segera laporkan kepada kami. Kerja sama Anda sangat penting untuk menjaga agar alat ini tetap gratis untuk semua orang.</p>
                         
-                        <h3>3. Kredit & Dukungan</h3>
+                        <h3>3. Credit & Dukungan</h3>
                         <p>Jika teman-teman merasa alat ini bermanfaat untuk turnamen atau proyek kalian, kami akan sangat berterima kasih jika teman-teman berkenan memberikan kredit atau shoutout. Anda dapat mendukung kami hanya dengan mencantumkan logo kami di bagian manapun pada siaran atau materi acara Anda. Hal ini bersifat sepenuhnya opsional, namun dukungan dari Anda sangat berarti bagi kami untuk terus melanjutkan pengembangan dan pemeliharaan alat ini. Terima kasih atas pengertian dan dukungannya!</p>
                     </div>
                 </div>
@@ -482,7 +478,7 @@
                 return;
             }
 
-            // 2. Jika dibuka di komputer sendiri (Localhost), jalankan cara lama bawaan kamu (baca serverip.txt)
+            // 2. Jika dibuka di komputer sendiri (Localhost), jalankan cara lama (baca serverip.txt)
             try {
                 const response = await fetch("/serverip.txt");
                 if (!response.ok) throw new Error("Net Err");
@@ -502,41 +498,41 @@
         }
 
         // --- CARD GENERATOR ---
-      function createCard(filename, type) {
-    const title = filename.replace('.html', '').replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
-    let buttons = '';
-    const currentOrigin = window.location.origin;
-    
-    if (type === 'control') {
-        buttons = `
-            <button class="action-btn btn-primary open-btn" data-url="${currentOrigin}/${filename}">OPEN PANEL</button>
-            <button class="action-btn copy-btn" data-url="${currentOrigin}/${filename}">COPY URL</button>
-        `;
-    } else {
-        // Cek jika sedang di internet (Railway), buat tombol NET IP (LAN) ikut menggunakan domain Railway
-        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-        const netUrl = isLocal ? `http://${serverIP}:${serverPort}/${filename}` : `${currentOrigin}/${filename}`;
+        function createCard(filename, type) {
+            const title = filename.replace('.html', '').replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+            let buttons = '';
+            const currentOrigin = window.location.origin;
+            
+            if (type === 'control') {
+                buttons = `
+                    <button class="action-btn btn-primary open-btn" data-url="${currentOrigin}/${filename}">OPEN PANEL</button>
+                    <button class="action-btn copy-btn" data-url="${currentOrigin}/${filename}">COPY URL</button>
+                `;
+            } else {
+                const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+                const mainUrl = `${currentOrigin}/${filename}`;
+                const netUrl = isLocal ? `http://${serverIP}:${serverPort}/${filename}` : `${currentOrigin}/${filename}`;
 
-        buttons = `
-            <button class="action-btn btn-primary copy-btn" data-url="${currentOrigin}/${filename}">COPY LINK</button>
-            <button class="action-btn copy-btn" data-url="${netUrl}">NET IP (LAN)</button>
-        `;
-    }
+                buttons = `
+                    <button class="action-btn btn-primary open-btn" data-url="${mainUrl}">OPEN OVERLAY</button>
+                    <button class="action-btn copy-btn" data-url="${netUrl}">NET IP (LAN)</button>
+                `;
+            }
 
-    return `
-        <div class="tool-card">
-            <div class="card-preview">
-                <img src="Assets/screenshots/${filename}.png" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgZmlsbD0iIzIyMiI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIC8+PHRleHQgeD0iNTAiIHk9IjUwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzU1NSI+Tk8gUFJFVklFVzwvdGV4dD48L3N2Zz4='">
-            </div>
-            <div class="card-body">
-                <h3 class="card-title">${title}</h3>
-                <div class="card-actions">
-                    ${buttons}
+            return `
+                <div class="tool-card">
+                    <div class="card-preview">
+                        <img src="Assets/screenshots/${filename}.png" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgZmlsbD0iIzIyMiI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIC8+PHRleHQgeD0iNTAiIHk9IjUwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzU1NSI+Tk8gUFJFVklFVzwvdGV4dD48L3N2Zz4='">
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">${title}</h3>
+                        <div class="card-actions">
+                            ${buttons}
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    `;
-}
+            `;
+        }
 
         // --- FUNGSI COPY YANG AMAN (HTTP & HTTPS) ---
         function copyTextToClipboard(text) {
@@ -588,36 +584,30 @@
                     document.querySelector(targetId).classList.add('active');
                 }
 
-                // Open Button
+                // Open Button (Pindah Halaman di TAB YANG SAMA)
                 if (e.target.classList.contains('open-btn')) {
-                    window.open(e.target.dataset.url, '_blank');
+                    window.location.href = e.target.dataset.url;
                 }
 
                 // Copy Button
-// Copy Button
-if (e.target.classList.contains('copy-btn')) {
-    const btn = e.target;
-    const url = btn.dataset.url;
-    
-    try {
-        await copyTextToClipboard(url);
-        const originalText = btn.textContent;
-        btn.textContent = "COPIED & OPENING...";
-        btn.classList.add('btn-copied');
-        
-        // --- BARIS BARU: Langsung buka halaman di tab baru ---
-        window.open(url, '_blank');
-        
-        setTimeout(() => {
-            btn.textContent = originalText;
-            btn.classList.remove('btn-copied');
-        }, 1500);
-    } catch (err) {
-        console.error("Copy Error:", err);
-        // Fallback: Jika copy gagal, halaman tetap dipaksa terbuka
-        window.open(url, '_blank');
-    }
-}
+                if (e.target.classList.contains('copy-btn')) {
+                    const btn = e.target;
+                    const url = btn.dataset.url;
+                    
+                    try {
+                        await copyTextToClipboard(url);
+                        const originalText = btn.textContent;
+                        btn.textContent = "COPIED!";
+                        btn.classList.add('btn-copied');
+                        setTimeout(() => {
+                            btn.textContent = originalText;
+                            btn.classList.remove('btn-copied');
+                        }, 1500);
+                    } catch (err) {
+                        console.error("Copy Error:", err);
+                        alert("Gagal Copy! Silakan salin manual:\n" + url);
+                    }
+                }
             });
         }
 
