@@ -227,7 +227,7 @@
         .btn-primary:hover { background: var(--accent-primary); color: white; box-shadow: 0 0 10px var(--accent-glow); }
         .btn-copied { background: var(--success) !important; color: #000 !important; border-color: var(--success) !important; }
 
-        /* ================== README STYLES (NEW) ================== */
+        /* ================== README STYLES ================== */
         .readme-wrapper { max-width: 1100px; margin: 0 auto; }
         
         /* IP Info Box */
@@ -460,95 +460,94 @@
 
     </main>
 
-<script>
-        async function initializeIP() {
-    const ipDisplay = document.getElementById('sidebarIpDisplay');
-    
-    // 1. Cek apakah aplikasi sedang dibuka lewat Railway (internet) atau Localhost
-    if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
-        // Jika dibuka lewat Railway, gunakan nama domainnya langsung sebagai penanda status
-        serverIP = window.location.hostname;
-        ipDisplay.textContent = "Railway Online";
-        ipDisplay.style.color = 'var(--success)';
-        return; // Hentikan fungsi di sini karena sudah sukses online
-    }
+    <script>
+        // --- INITIALIZATION VARIABLES ---
+        const serverPort = 3000;
+        let serverIP = 'localhost';
 
-    // 2. Jika dibuka di komputer sendiri (Localhost), jalankan cara lama bawaan kamu (baca serverip.txt)
-    try {
-        const response = await fetch("/serverip.txt");
-        if (!response.ok) throw new Error("Net Err");
-        const ip = (await response.text()).trim();
-        if (ip) {
-            serverIP = ip;
-            ipDisplay.textContent = `${serverIP}:${serverPort}`;
-            ipDisplay.style.color = 'var(--success)';
-        } else {
-            throw new Error("Empty IP");
+        // --- DATA FILES ---
+        const controlFiles = ['control.html', 'controlban6.html', 'drawcontrol.html', 'notifcontrol.html', 'postgamecontrol.html', 'schedulecontrol.html', 'costumoverlaycontrol.html'];
+        const displayFiles = ['display.html', 'display2.html', 'displaycostum.html', 'displayban6.html', 'display2ban6.html', 'displaycostumban6.html', 'postdraft.html', 'postdraft2.html', 'postdraftcostum.html', 'scoreboard.html', 'scoreboardcostum.html','scoreboardocr.html','scoreboardcostumocr.html', 'previousdraft.html', 'notifdisplay.html', 'builds.html', 'globalban.html'];
+        const utilityFiles = ['postgame.html', 'mvpdisplay.html', 'scheduledisplay.html', 'drawdisplay.html', 'drawdisplay2.html', 'drawdisplay3.html', 'drawfinal.html'];
+
+        // --- IP INITIALIZATION ---
+        async function initializeIP() {
+            const ipDisplay = document.getElementById('sidebarIpDisplay');
+            
+            // 1. Cek apakah aplikasi sedang dibuka lewat Railway (internet) atau Localhost
+            if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+                serverIP = window.location.hostname;
+                ipDisplay.textContent = "Railway Online";
+                ipDisplay.style.color = 'var(--success)';
+                return;
+            }
+
+            // 2. Jika dibuka di komputer sendiri (Localhost), jalankan cara lama bawaan kamu (baca serverip.txt)
+            try {
+                const response = await fetch("/serverip.txt");
+                if (!response.ok) throw new Error("Net Err");
+                const ip = (await response.text()).trim();
+                if (ip) {
+                    serverIP = ip;
+                    ipDisplay.textContent = `${serverIP}:${serverPort}`;
+                    ipDisplay.style.color = 'var(--success)';
+                } else {
+                    throw new Error("Empty IP");
+                }
+            } catch (error) {
+                console.error("IP Fetch Error:", error);
+                ipDisplay.textContent = `Offline / Localhost`;
+                ipDisplay.style.color = '#ef4444';
+            }
         }
-    } catch (error) {
-        console.error("IP Fetch Error:", error);
-        ipDisplay.textContent = `Offline / Localhost`;
-        ipDisplay.style.color = '#ef4444';
-    }
-}
 
         // --- CARD GENERATOR ---
         function createCard(filename, type) {
             const title = filename.replace('.html', '').replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
-    
             let buttons = '';
-    
-    // Mengambil domain utama yang sedang aktif saat ini secara otomatis
-    // Jika di lokal akan berisi http://localhost:3000, jika di Railway akan berisi https://overlay-production-48aa.up.railway.app
             const currentOrigin = window.location.origin;
-    
-    if (type === 'control') {
-        buttons = `
-            <button class="action-btn btn-primary open-btn" data-url="${currentOrigin}/${filename}">OPEN PANEL</button>
-            <button class="action-btn copy-btn" data-url="${currentOrigin}/${filename}">COPY URL</button>
-        `;
-    } else {
-        buttons = `
-            <button class="action-btn btn-primary copy-btn" data-url="${currentOrigin}/${filename}">COPY LINK</button>
-            <button class="action-btn copy-btn" data-url="http://${serverIP}:${serverPort}/${filename}">NET IP (LAN)</button>
-        `;
-    }
+            
+            if (type === 'control') {
+                buttons = `
+                    <button class="action-btn btn-primary open-btn" data-url="${currentOrigin}/${filename}">OPEN PANEL</button>
+                    <button class="action-btn copy-btn" data-url="${currentOrigin}/${filename}">COPY URL</button>
+                `;
+            } else {
+                buttons = `
+                    <button class="action-btn btn-primary copy-btn" data-url="${currentOrigin}/${filename}">COPY LINK</button>
+                    <button class="action-btn copy-btn" data-url="http://${serverIP}:${serverPort}/${filename}">NET IP (LAN)</button>
+                `;
+            }
 
-    return `
-        <div class="tool-card">
-            <div class="card-preview">
-                <img src="Assets/screenshots/${filename}.png" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgZmlsbD0iIzIyMiI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIC8+PHRleHQgeD0iNTAiIHk9IjUwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzU1NSI+Tk8gUFJFVklFVzwvdGV4dD48L3N2Zz4='">
-            </div>
-            <div class="card-body">
-                <h3 class="card-title">${title}</h3>
-                <div class="card-actions">
-                    ${buttons}
+            return `
+                <div class="tool-card">
+                    <div class="card-preview">
+                        <img src="Assets/screenshots/${filename}.png" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgZmlsbD0iIzIyMiI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIC8+PHRleHQgeD0iNTAiIHk9IjUwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzU1NSI+Tk8gUFJFVklFVzwvdGV4dD48L3N2Zz4='">
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">${title}</h3>
+                        <div class="card-actions">
+                            ${buttons}
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    `;
-}
+            `;
+        }
 
         // --- FUNGSI COPY YANG AMAN (HTTP & HTTPS) ---
         function copyTextToClipboard(text) {
-            // Coba cara modern dulu (biasanya gagal di HTTP IP)
             if (navigator.clipboard && window.isSecureContext) {
                 return navigator.clipboard.writeText(text);
             } else {
-                // Cara Fallback (Pasti berhasil di HTTP)
                 return new Promise((resolve, reject) => {
                     let textArea = document.createElement("textarea");
                     textArea.value = text;
-                    
-                    // Sembunyikan textarea agar tidak terlihat
                     textArea.style.position = "fixed";
                     textArea.style.left = "-9999px";
                     textArea.style.top = "0";
                     document.body.appendChild(textArea);
-                    
                     textArea.focus();
                     textArea.select();
-                    
                     try {
                         const successful = document.execCommand('copy');
                         document.body.removeChild(textArea);
@@ -590,27 +589,31 @@
                     window.open(e.target.dataset.url, '_blank');
                 }
 
-                // Copy Button (UPDATED)
-                if (e.target.classList.contains('copy-btn')) {
-                    const btn = e.target;
-                    const url = btn.dataset.url;
-                    
-                    try {
-                        // Panggil fungsi copy custom kita
-                        await copyTextToClipboard(url);
-                        
-                        const originalText = btn.textContent;
-                        btn.textContent = "COPIED!";
-                        btn.classList.add('btn-copied');
-                        setTimeout(() => {
-                            btn.textContent = originalText;
-                            btn.classList.remove('btn-copied');
-                        }, 1500);
-                    } catch (err) {
-                        console.error("Copy Error:", err);
-                        alert("Gagal Copy! Browser memblokir akses clipboard. Silakan copy manual: \n" + url);
-                    }
-                }
+                // Copy Button
+// Copy Button
+if (e.target.classList.contains('copy-btn')) {
+    const btn = e.target;
+    const url = btn.dataset.url;
+    
+    try {
+        await copyTextToClipboard(url);
+        const originalText = btn.textContent;
+        btn.textContent = "COPIED & OPENING...";
+        btn.classList.add('btn-copied');
+        
+        // --- BARIS BARU: Langsung buka halaman di tab baru ---
+        window.open(url, '_blank');
+        
+        setTimeout(() => {
+            btn.textContent = originalText;
+            btn.classList.remove('btn-copied');
+        }, 1500);
+    } catch (err) {
+        console.error("Copy Error:", err);
+        // Fallback: Jika copy gagal, halaman tetap dipaksa terbuka
+        window.open(url, '_blank');
+    }
+}
             });
         }
 
