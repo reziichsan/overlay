@@ -1,0 +1,386 @@
+@font-face {
+    font-family: 'myfonts';
+    src: url('Assets/Font/Renegade\ Pursuit.otf') format('truetype');
+}
+
+/* === VARIABEL SCOREBOARD === */
+:root {
+    --blue-primary: #00d2ff;
+    --red-primary: #ff3535;
+
+    --sb-teamname-blue: var(--blue-primary);
+    --sb-teamname-red: var(--red-primary);
+
+    --sb-bg-teamname:  #070810;
+    --sb-bg-logo:      #040508;
+    --sb-bg-score:     #040508;
+    --sb-bg-combined:  #06070f;
+    --sb-bg-box1:      #070810;
+    --sb-bg-secondary: #070810;
+
+    --sb-border-bottom: rgba(255, 255, 255, 0.06);
+    --sb-flag-img: none;
+
+    --sb-glow-blue: 0 0 12px rgba(0,210,255,1), 0 0 30px rgba(0,210,255,0.5), 0 0 60px rgba(0,210,255,0.2);
+    --sb-glow-red:  0 0 12px rgba(255,53,53,1),  0 0 30px rgba(255,53,53,0.5),  0 0 60px rgba(255,53,53,0.2);
+    --sb-box-shadow-blue: inset 0 0 30px rgba(0,210,255,0.09), 0 0 15px rgba(0,210,255,0.12);
+    --sb-box-shadow-red:  inset 0 0 30px rgba(255,53,53,0.09),  0 0 15px rgba(255,53,53,0.12);
+}
+
+/* TIDAK ada width/height di body — biarkan seperti aslinya */
+body {
+    font-family: myfonts;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+.mainbox {
+    width: 1920px;
+    height: 1080px;
+    display: flex;
+}
+
+.map {
+    width: 337.5px;
+    height: 337.5px;
+}
+
+/* ===================== BOARD ===================== */
+.board {
+    width: 1581.5px;
+    height: 126.5px;
+    display: flex;
+    position: relative;
+    overflow: visible;
+}
+
+/* Garis top — gradien biru ke merah */
+.board::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(
+        to right,
+        var(--blue-primary),
+        rgba(0,210,255,0.3) 25%,
+        rgba(255,255,255,0.05) 50%,
+        rgba(255,53,53,0.3) 75%,
+        var(--red-primary)
+    );
+    z-index: 10;
+}
+
+/* ===================== BOX 1 & FLAG ===================== */
+.box1 {
+    width: 104px;
+    height: 119.5px;
+    background: var(--sb-bg-box1);
+    position: relative;
+    overflow: hidden;
+}
+
+.box1::after {
+    content: '';
+    position: absolute;
+    left: 0; top: 0;
+    width: 3px; height: 100%;
+    background: linear-gradient(to bottom, var(--blue-primary), rgba(0,210,255,0.05));
+}
+
+.flag {
+    width: 104px;
+    height: 119px;
+    background-position: center;
+    background-size: 80%;
+    background-repeat: no-repeat;
+    background-image: var(--sb-flag-img);
+}
+
+/* ===================== MAIN SCOREBOARD ===================== */
+.mainscoreboard {
+    width: 1037.07px;
+    height: 119.5px;
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
+}
+
+.upper {
+    width: 1037.07px;
+    height: 52.63px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    background: transparent;
+}
+
+/* ===================== BOX 2 ===================== */
+.box2 {
+    width: 91px;
+    height: 52.63px;
+    padding: 10px;
+    position: absolute;
+    background: var(--sb-bg-combined);
+    overflow: hidden;
+}
+
+.box2.blue {
+    border-top: 2px solid var(--blue-primary);
+    box-shadow: inset 0 0 20px rgba(0,210,255,0.08);
+}
+
+.box2.red {
+    border-top: 2px solid var(--red-primary);
+    box-shadow: inset 0 0 20px rgba(255,53,53,0.08);
+}
+
+.mb { left: -10px; }
+.mr { right: -10px; }
+
+.transparent {
+    width: 855.07px;
+    height: 52.63px;
+    background: transparent;
+}
+
+/* ===================== LOWER BAR ===================== */
+.lower {
+    width: 1037.07px;
+    height: 39.87px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--sb-bg-combined);
+    border-top: 1px solid rgba(255,255,255,0.04);
+    position: relative;
+    overflow: visible;
+}
+
+.lower::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0; width: 45%;
+    background: radial-gradient(ellipse at left center, rgba(0,210,255,0.05) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.lower::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 0; bottom: 0; width: 45%;
+    background: radial-gradient(ellipse at right center, rgba(255,53,53,0.05) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.lowerwrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+    position: relative;
+    z-index: 1;
+}
+
+.red  { transform: skewX(-20deg); }
+.blue { transform: skewX(20deg); }
+
+/* ===================== SCORE BOX ===================== */
+.score {
+    width: 50px;
+    height: 47.66px;
+    background: var(--sb-bg-score);
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+.score::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.12;
+}
+
+.score.blue {
+    color: var(--sb-teamname-blue);
+    text-shadow: var(--sb-glow-blue);
+    border-bottom: 2px solid var(--blue-primary);
+    border-left:   2px solid rgba(0,210,255,0.45);
+    box-shadow: inset 0 0 20px rgba(0,210,255,0.1);
+}
+
+.score.blue::before {
+    background: radial-gradient(circle at center, rgba(0,210,255,1) 0%, transparent 70%);
+}
+
+.score.red {
+    color: var(--sb-teamname-red);
+    text-shadow: var(--sb-glow-red);
+    border-bottom: 2px solid var(--red-primary);
+    border-right:  2px solid rgba(255,53,53,0.45);
+    box-shadow: inset 0 0 20px rgba(255,53,53,0.1);
+}
+
+.score.red::before {
+    background: radial-gradient(circle at center, rgba(255,53,53,1) 0%, transparent 70%);
+}
+
+/* ===================== TEAM NAME ===================== */
+.teamname {
+    width: 290px;
+    height: 54.5px;
+    background: var(--sb-bg-teamname);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    text-align: center;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+}
+
+.teamname::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 60px; height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.025), transparent);
+    transform: skewX(-20deg);
+}
+
+.teamname.blue::before { left: 20px; }
+.teamname.red::before  { right: 20px; }
+
+.teamname.blue {
+    color: var(--sb-teamname-blue);
+    text-shadow: var(--sb-glow-blue);
+    border-bottom: 2px solid var(--blue-primary);
+    border-left:   1px solid rgba(0,210,255,0.22);
+    box-shadow: inset 0 0 40px rgba(0,210,255,0.05);
+}
+
+.teamname.red {
+    color: var(--sb-teamname-red);
+    text-shadow: var(--sb-glow-red);
+    border-bottom: 2px solid var(--red-primary);
+    border-right:  1px solid rgba(255,53,53,0.22);
+    box-shadow: inset 0 0 40px rgba(255,53,53,0.05);
+}
+
+/* ===================== TEAM LOGO ===================== */
+.teamlogo {
+    width: 80px;
+    height: 69.39px;
+    background: var(--sb-bg-logo);
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Corner brackets */
+.teamlogo::before,
+.teamlogo::after {
+    content: '';
+    position: absolute;
+    width: 10px; height: 10px;
+}
+
+.teamlogo.blue::before {
+    top: 0; left: 0;
+    border-top: 1px solid rgba(0,210,255,0.7);
+    border-left: 1px solid rgba(0,210,255,0.7);
+}
+.teamlogo.blue::after {
+    bottom: 0; right: 0;
+    border-bottom: 1px solid rgba(0,210,255,0.35);
+    border-right: 1px solid rgba(0,210,255,0.35);
+}
+
+.teamlogo.red::before {
+    top: 0; right: 0;
+    border-top: 1px solid rgba(255,53,53,0.7);
+    border-right: 1px solid rgba(255,53,53,0.7);
+}
+.teamlogo.red::after {
+    bottom: 0; left: 0;
+    border-bottom: 1px solid rgba(255,53,53,0.35);
+    border-left: 1px solid rgba(255,53,53,0.35);
+}
+
+.teamlogo.blue {
+    box-shadow: var(--sb-box-shadow-blue);
+    border-bottom: 2px solid rgba(0,210,255,0.4);
+}
+
+.teamlogo.red {
+    box-shadow: var(--sb-box-shadow-red);
+    border-bottom: 2px solid rgba(255,53,53,0.4);
+}
+
+.teamlogo img {
+    width: 50px;
+    height: 65px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 8px rgba(255,255,255,0.1));
+    position: relative;
+    z-index: 1;
+}
+
+/* ===================== SPACE / DIVIDER ===================== */
+.space {
+    width: 90px;
+    position: relative;
+}
+
+.space::before {
+    content: '';
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%) skewX(-20deg);
+    width: 1px; height: 34px;
+    background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.2), transparent);
+}
+
+.space::after {
+    content: '';
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    width: 5px; height: 5px;
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.35);
+}
+
+/* ===================== SECONDARY BOARD ===================== */
+.secondaryboard {
+    width: 440px;
+    height: 116.31px;
+    background: var(--sb-bg-secondary);
+    border-left: 1px solid rgba(255,255,255,0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.secondaryboard::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 0;
+    width: 3px; height: 100%;
+    background: linear-gradient(to bottom, var(--red-primary), rgba(255,53,53,0.05));
+}
+
+.revblue { transform: skewX(-20deg); }
+.revred  { transform: skewX(20deg); }

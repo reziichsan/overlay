@@ -1,0 +1,209 @@
+{
+  "game_duration": "40:20",
+  "game_number": "1",
+  "teamdata": {
+    "blueteam": {
+      "teamname": "Tim A",
+      "score": "0",
+      "logo": "",
+      "totalgold": 0,
+      "turret": 0,
+      "lord": 0,
+      "turtle": 0,
+      "playerlist": [
+        {
+          "name": "sir 1",
+          "lane": "none",
+          "hero": "",
+          "banhero": "Hirara",
+          "level": 0,
+          "gold": 0,
+          "KDA": "0/0/0",
+          "spell": "Inspire",
+          "itemlist": [
+            "Azure Blade",
+            "Brute Force Breastplate",
+            "Dreadnaught Armor",
+            "idle",
+            "idle",
+            "idle"
+          ]
+        },
+        {
+          "name": "sir 2",
+          "lane": "none",
+          "hero": "Hirara",
+          "banhero": "",
+          "level": 0,
+          "gold": 0,
+          "KDA": "0/0/0",
+          "spell": "Divine Glaive",
+          "itemlist": [
+            "idle",
+            "idle",
+            "idle",
+            "idle",
+            "idle",
+            "idle"
+          ]
+        },
+        {
+          "name": "sir 3",
+          "lane": "none",
+          "hero": "",
+          "banhero": "",
+          "level": 0,
+          "gold": 0,
+          "KDA": "0/0/0",
+          "spell": "Endless Battle",
+          "itemlist": [
+            "idle",
+            "idle",
+            "idle",
+            "idle",
+            "idle",
+            "idle"
+          ]
+        },
+        {
+          "name": "sir 4",
+          "lane": "none",
+          "hero": "",
+          "banhero": "",
+          "level": 0,
+          "gold": 0,
+          "KDA": "0/0/0",
+          "spell": "Blade Armor",
+          "itemlist": [
+            "idle",
+            "idle",
+            "idle",
+            "idle",
+            "Dreadnaught Armor",
+            "Concentrated Energy"
+          ]
+        },
+        {
+          "name": "sir 5",
+          "lane": "none",
+          "hero": "",
+          "banhero": "",
+          "level": 0,
+          "gold": 0,
+          "KDA": "0/0/0",
+          "spell": "Vampire Mallet",
+          "itemlist": [
+            "idle",
+            "idle",
+            "idle",
+            "idle",
+            "idle",
+            "idle"
+          ]
+        }
+      ]
+    },
+    "redteam": {
+      "teamname": "Tim B",
+      "score": "0",
+      "logo": "",
+      "totalgold": 0,
+      "turret": 0,
+      "lord": 0,
+      "turtle": 0,
+      "playerlist": [
+        {
+          "name": "wir 1",
+          "lane": "none",
+          "hero": "",
+          "banhero": "",
+          "level": 0,
+          "gold": 0,
+          "KDA": "0/0/0",
+          "spell": "",
+          "itemlist": [
+            "idle",
+            "idle",
+            "idle",
+            "idle",
+            "idle",
+            "idle"
+          ]
+        },
+        {
+          "name": "wir 2",
+          "lane": "none",
+          "hero": "",
+          "banhero": "",
+          "level": 0,
+          "gold": 0,
+          "KDA": "0/0/0",
+          "spell": "",
+          "itemlist": [
+            "idle",
+            "idle",
+            "idle",
+            "idle",
+            "idle",
+            "idle"
+          ]
+        },
+        {
+          "name": "wir 3",
+          "lane": "none",
+          "hero": "",
+          "banhero": "",
+          "level": 0,
+          "gold": 0,
+          "KDA": "0/0/0",
+          "spell": "",
+          "itemlist": [
+            "idle",
+            "idle",
+            "idle",
+            "idle",
+            "idle",
+            "idle"
+          ]
+        },
+        {
+          "name": "wir 4",
+          "lane": "none",
+          "hero": "",
+          "banhero": "",
+          "level": 0,
+          "gold": 0,
+          "KDA": "0/0/0",
+          "spell": "",
+          "itemlist": [
+            "idle",
+            "idle",
+            "idle",
+            "idle",
+            "idle",
+            "idle"
+          ]
+        },
+        {
+          "name": "wir 5",
+          "lane": "none",
+          "hero": "",
+          "banhero": "",
+          "level": 0,
+          "gold": 0,
+          "KDA": "0/0/0",
+          "spell": "",
+          "itemlist": [
+            "idle",
+            "idle",
+            "idle",
+            "idle",
+            "idle",
+            "idle"
+          ]
+        }
+      ]
+    }
+  },
+  "winmatches": "red"
+}

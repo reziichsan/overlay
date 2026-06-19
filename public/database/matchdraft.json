@@ -1,0 +1,80 @@
+{
+  "draftdata": {
+    "timer": "54",
+    "timerRunning": false,
+    "current_phase": 8,
+    "blueside": {
+      "ban": [
+        {
+          "hero": "/Assets/HeroPick/hirara.png"
+        },
+        {
+          "hero": ""
+        },
+        {
+          "hero": ""
+        },
+        {
+          "hero": ""
+        },
+        {
+          "hero": ""
+        }
+      ],
+      "pick": [
+        {
+          "hero": ""
+        },
+        {
+          "hero": "/Assets/HeroPick/hirara.png"
+        },
+        {
+          "hero": ""
+        },
+        {
+          "hero": ""
+        },
+        {
+          "hero": ""
+        }
+      ]
+    },
+    "redside": {
+      "ban": [
+        {
+          "hero": ""
+        },
+        {
+          "hero": ""
+        },
+        {
+          "hero": ""
+        },
+        {
+          "hero": ""
+        },
+        {
+          "hero": ""
+        }
+      ],
+      "pick": [
+        {
+          "hero": ""
+        },
+        {
+          "hero": ""
+        },
+        {
+          "hero": ""
+        },
+        {
+          "hero": ""
+        },
+        {
+          "hero": ""
+        }
+      ]
+    },
+    "timer_running": true
+  }
+}
