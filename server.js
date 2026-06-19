@@ -19,6 +19,13 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(express.static('public'));
 
+// ==========================================================
+// ROUTE UTAMA: Mengarahkan "/" langsung ke public/hub.html
+// ==========================================================
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'hub.html'));
+});
+
 // ==========================================
 // 1. KELAS ANTREAN PENULISAN (WRITE QUEUE)
 // Mencegah Race Condition / File Corrupt saat banyak input bersamaan
@@ -461,9 +468,9 @@ const localIp = getLocalIp();
 server.listen(port, async () => {
     console.log('=============================================');
     console.log(` SERVER STARTED (False MLBB OVERLAY TOOL V4.7) `);
-    console.log(` Local:   http://localhost:${port}`);
+    console.log(` Local:    http://localhost:${port}`);
     console.log(` Network: http://${localIp}:${port}`);
-    console.log(` Status:  Cache & Async Queue Active! `);
+    console.log(` Status:   Cache & Async Queue Active! `);
     console.log('=============================================');
 
     try { await fs.writeFile(path.join(__dirname, 'public/serverip.txt'), localIp); } catch (error) {}
