@@ -20,10 +20,26 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(express.static('public'));
 
 // ==========================================================
-// ROUTE UTAMA: Mengarahkan "/" langsung ke public/hub.html
+// ROUTE UTAMA & HALAMAN CUSTOM (Mendukung akses /public/)
 // ==========================================================
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'hub.html'));
+});
+
+app.get('/public/displaycustom.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'displaycustom.html'));
+});
+
+app.get('/public/control.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'control.html'));
+});
+
+app.get('/public/scoreboardcostum.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'scoreboardcostum.html'));
+});
+
+app.get('/public/postdraftcostum.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'postdraftcostum.html'));
 });
 
 // ==========================================
